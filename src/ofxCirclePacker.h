@@ -75,11 +75,14 @@ public :
         const ofColor &colorFill    = ofColor(255),
         const ofColor &colorStroke  = ofColor(255)
     );
+
+    void eraseCircle(int idx);
 	
 	void writeToFile(string filename = "circle_data.xml");
 	void loadFromFile(string filename = "circle_data.xml");
 	
     vector<ofxCirclePackerItem *> circlesToAdd;
+    vector<ofxCirclePackerItem *> circlesToErase;
     vector<ofxCirclePackerItem *> circles;
 	
 	bool bPaused;
