@@ -22,7 +22,7 @@ public:
         radiusMax = 0;
         radiusGrowth = 0;
         gap = 0;
-        
+		erase = false;
         count = 0;
         bAlive = true;
     }
@@ -44,6 +44,7 @@ public:
 
 	int	count;
 	bool bAlive;
+	bool erase;
     
     vector<ofxCirclePackerItem *> neighbours;
 };

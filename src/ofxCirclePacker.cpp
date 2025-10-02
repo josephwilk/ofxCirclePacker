@@ -150,34 +150,26 @@ void ofxCirclePacker::update() {
 	for(i=0; i<circles.size(); i++) {
         c1 = circles[i];
         
-		if(c1->bAlive == true) {
-			c1->radius += c1->radiusGrowth;
-			c1->count  += 1;
-			
-			if(c1->radius >= c1->radiusMax) {
-                c1->radius = c1->radiusMax;
+		if(c1->erase == true){
+			c1->radius = c1->radius-0.1;
+			if(c1->radius < 0){
 				c1->bAlive = false;
-            }
+				c1->count = 0;
+			}
+		}else{
+			
+			if(c1->bAlive == true) {
+				c1->radius += c1->radiusGrowth;
+				c1->count  += 1;
+				
+				if(c1->radius >= c1->radiusMax) {
+					c1->radius = c1->radiusMax;
+					c1->bAlive = false;
+				}
+			}
 		}
 	}
 
-
-    //--------------------------------------------------------- Ease out circles 
-    for(int i=0; i<circlesToErase.size(); i++) {
-		c1 = circlesToErase[i];
-		c1->radius = c1->radius - 0.1f; //Decay rate.
-		
-		if(c1->radius < 0){
-			circlesToErase.erase(circlesToErase.begin()+i);
-            delete c1;
-		}
-	}
-
-}
-
-void ofxCirclePacker::eraseCircle(int idx){
-	circlesToErase.push_back(circles[idx]);
-	circles.erase(circles.begin() + idx);
 }
 
 //-------------------------------------------------------------- draw.
@@ -193,19 +185,12 @@ void ofxCirclePacker::draw() {
         ofSetColor(c->colorStroke);
 		ofDrawCircle(c->x, c->y, c->radius);
 	}
-
-    for(int i=0; i<circlesToErase.size(); i++) {
-		ofxCirclePackerItem * c = circlesToErase[i];
-		
-		ofFill();
-		ofSetColor(c->colorFill);
-		ofDrawCircle(c->x, c->y, c->radius);
-		
-		ofNoFill();
-		ofSetColor(c->colorStroke);
-		ofDrawCircle(c->x, c->y, c->radius);
-	}
 }
+
+void ofxCirclePacker::eraseCircle(int idx){
+	circles[idx]->erase = true;
+}
+
 
 //-------------------------------------------------------------- reset.
 void ofxCirclePacker::reset()
